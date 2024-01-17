@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
+    }
+  ],
+  "name": "CloudKitchen",
+  "namespace": "",
+  "sfdcLoginUrl": "https://betweenjobs-b-dev-ed.develop.my.salesforce.com",
+  "sourceApiVersion": "57.0"
+}
