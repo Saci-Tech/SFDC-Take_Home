@@ -6,7 +6,12 @@ public class RestResourceDataModels {
         public String phone { get; set; }
         
         public SiteContactData() {}
-        public SiteContactData(String firstName, String lastName, String email, String phone) {}
+        public SiteContactData(String firstName, String lastName, String email, String phone) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.phone = phone;
+        }
     }
     public class SiteProductData {
         public String name { get; set; }
@@ -54,11 +59,7 @@ public class RestResourceDataModels {
         public SiteIncomingData() {}
 
         public SiteIncomingData(String firstName, String lastName, String companyName, String email, String phone, List<SiteProductData> products, SiteAddressData address) {
-            this.firstName = firstName;
-            this.lastName = lastName;
             this.companyName = companyName;
-            this.email = email;
-            this.phone = phone;
             this.products = products != null ? products : new List<SiteProductData>();
             this.address = address != null ? address : new SiteAddressData();
         }
