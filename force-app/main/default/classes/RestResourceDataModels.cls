@@ -53,6 +53,7 @@ public class RestResourceDataModels {
 
     public class SiteIncomingData {
         public String companyName { get; set; }
+        public SiteContactData contact { get; set; }
         public List<SiteProductData> products { get; set; }
         public SiteAddressData address { get; set; }
 
