@@ -66,7 +66,6 @@ public class RestResourceDataModels {
 
         }
     }
-
     public class ResponseDataModel {
         public Integer status { get; set; }
         public String message { get; set; }
@@ -74,7 +73,7 @@ public class RestResourceDataModels {
         public ResponseDataModel() {}
         public ResponseDataModel(Integer status, String message) {
             this.status = status;
-            this.message = message
+            this.message = message;
         }
     }
 }
