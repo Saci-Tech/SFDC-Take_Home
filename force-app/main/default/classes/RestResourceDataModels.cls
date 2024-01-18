@@ -6,6 +6,7 @@ public class RestResourceDataModels {
         public String phone { get; set; }
         
         public SiteContactData() {}
+
         public SiteContactData(String firstName, String lastName, String email, String phone) {
             this.firstName = firstName;
             this.lastName = lastName;
@@ -32,7 +33,6 @@ public class RestResourceDataModels {
             this.uuid = uuid;
         }
     }
-
     public class SiteAddressData {
         public String street { get; set; }
         public String city { get; set; }
@@ -50,7 +50,6 @@ public class RestResourceDataModels {
             this.country = country;
         }
     }
-
     public class SiteIncomingData {
         public String companyName { get; set; }
         public SiteContactData contact { get; set; }
@@ -59,10 +58,12 @@ public class RestResourceDataModels {
 
         public SiteIncomingData() {}
 
-        public SiteIncomingData(String firstName, String lastName, String companyName, String email, String phone, List<SiteProductData> products, SiteAddressData address) {
+        public SiteIncomingData(SiteContactData contact, String companyName, List<SiteProductData> products, SiteAddressData address) {
             this.companyName = companyName;
             this.products = products != null ? products : new List<SiteProductData>();
             this.address = address != null ? address : new SiteAddressData();
+            this.contact = contact != null ? contact : new SiteContactData();
+
         }
     }
 }
