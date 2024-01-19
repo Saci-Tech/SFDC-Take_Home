@@ -1,6 +1,4 @@
 public with sharing class ContactDAO {
-    public ContactDAO() {}
-
     public static List<Database.SaveResult> createContacts(List<Contact> contactList) {
         return Database.insert(contactList, false);
     }

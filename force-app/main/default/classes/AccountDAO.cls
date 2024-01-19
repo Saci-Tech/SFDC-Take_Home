@@ -1,6 +1,4 @@
 public with sharing class AccountDAO {
-    public AccountDAO() {}
-
     public static List<Database.SaveResult> createAccounts(List<Account> accountList) {
         return Database.insert(accountList, false);
     }
