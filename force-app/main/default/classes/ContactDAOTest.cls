@@ -3,7 +3,6 @@ private class ContactDAOTest {
 
     @isTest
     static void testContactCreationAndRetrieval() {
-        // Test Contact creation
         List<Contact> testContacts = new List<Contact>();
         Account testAccount = new Account(Name = 'Test Account');
         insert testAccount;
@@ -27,17 +26,13 @@ private class ContactDAOTest {
         List<Database.SaveResult> saveResults = ContactDAO.createContacts(testContacts);
         Test.stopTest();
 
-        // Assert Contact creation results
         for (Database.SaveResult saveResult : saveResults) {
             System.assert(saveResult.isSuccess(), 'Contact creation should be successful');
         }
 
-        // Test Contact retrieval
         Set<String> accountNamesSet = new Set<String>{'Test Account'};
         List<Contact> retrievedContacts = ContactDAO.getContacts(accountNamesSet);
         System.assertEquals(5, retrievedContacts.size(), 'Unexpected number of contacts retrieved');
 
-        // Clean up: Delete the test account and contacts
-        delete testAccount;
     }
 }

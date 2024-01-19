@@ -13,15 +13,24 @@ private class ConvertLeadsQueueableTest {
         List<RestResourceDataModels.SiteIncomingData> incomingDataList = new List<RestResourceDataModels.SiteIncomingData>();
         
         for(Integer i = 0;i < 4;i++) {
-            // Create sample leads
-            leadsToInsert.add(new Lead(FirstName = 'John', LastName = 'Doe', Company = 'Test Company ' + (i + 1), Email = 'testlead0' + (i + 1) + '@test.com', Phone = (i + 1) + ' 123 456 78'));
+            leadsToInsert.add(
+                new Lead(
+                    FirstName = 'John', 
+                    LastName = 'Doe', 
+                    Company = 'Test Company ' + (i + 1), 
+                    Email = 'testlead0' + (i + 1) + '@test.com', 
+                    Phone = (i + 1) + ' 123 456 78'
+                )
+            );
         }
+
         List<Database.SaveResult> results = LeadDAO.createLeads(leadsToInsert);
         for(Database.SaveResult result : results) {
             if(Math.mod(results.indexOf(result), 2) == 0) {
                 leadIds.add(result.getId());
             }
         }
+
         for(String s : leadIds) {
             Database.LeadConvert lc = new Database.LeadConvert();
             lc.setLeadId(s);
@@ -31,14 +40,16 @@ private class ConvertLeadsQueueableTest {
         convertResults = Database.convertLead(leadConverts, false);
 
         for(Integer i = 0;i < 4;i++) {
-            incomingDataList.add(new RestResourceDataModels.SiteIncomingData(
-                'Test Company ' + (i + 1), 
-                new List<RestResourceDataModels.SiteProductData>{
-                    new RestResourceDataModels.SiteProductData('Teste' + (i + 1), 2)
-                }, 
-                new RestResourceDataModels.SiteContactData('John', 'Doe', 'testlead0' + (i + 1) + '@test.com', (i + 1) + ' 123 456 78'), 
-                new RestResourceDataModels.SiteAddressData('Street ' + (i + 1), 'City ' + (i + 1), 'Test', null, 'Brazil')
-            ));
+            incomingDataList.add(
+                new RestResourceDataModels.SiteIncomingData(
+                    'Test Company ' + (i + 1), 
+                    new List<RestResourceDataModels.SiteProductData>{
+                        new RestResourceDataModels.SiteProductData('Teste' + (i + 1), 2)
+                    }, 
+                    new RestResourceDataModels.SiteContactData('John', 'Doe', 'testlead0' + (i + 1) + '@test.com', (i + 1) + ' 123 456 78'), 
+                    new RestResourceDataModels.SiteAddressData('Street ' + (i + 1), 'City ' + (i + 1), 'Test', null, 'Brazil')
+                )
+            );
             products.add(new Product2(
                 Name = 'Teste ' + (i + 1),
                 ExternalId = 'teste ' + (i + 1)
@@ -57,7 +68,6 @@ private class ConvertLeadsQueueableTest {
         }
 
         insert pricebookEntries;
-
     }
 
     @isTest
@@ -66,7 +76,7 @@ private class ConvertLeadsQueueableTest {
         List<RestResourceDataModels.SiteIncomingData> incomingDataList = new List<RestResourceDataModels.SiteIncomingData>();
         List<Lead> leadsToConvert = new List<Lead>();
         List<Opportunity> oppotunityList = new List<Opportunity>();
-        // Create sample incomingData
+
         for(Integer i = 0;i < 4;i++) {
             incomingDataList.add(new RestResourceDataModels.SiteIncomingData(
                 'Test Company ' + (i + 1), 

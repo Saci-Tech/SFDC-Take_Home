@@ -3,7 +3,6 @@ private class OpportunityDAOTest {
 
     @isTest
     static void testOpportunityDAO() {
-        // Test data setup
         List<Opportunity> opportunityList = new List<Opportunity>{
             new Opportunity(
                 Name = 'Test ' + Date.today(),
