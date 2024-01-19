@@ -11,16 +11,18 @@ global with sharing class SiteOrdersRestResource {
             res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(200, 'Record Created Successfully')));
             RestContext.response = res;
         } catch (Exception e) {
-            // Handle exceptions or errors
-            // Simulating a 404 error if the record is not found
             if (e.getMessage().contains('RecordNotFoundException')) {
+                // Handle exceptions or errors - Simulating a 404 error if the record is not found
                 res.statusCode = 404;
                 res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(404, 'Record Not Found')));
             } else {
-                // Simulating a generic server error with status 500
+                // Handle exceptions or errors - a generic server error with status 500
                 res.statusCode = 500;
                 res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(500, 'Internal Server Error')));
             }
+
+            // Additional error handling - is there any internal facility to hold records/audit trail?
+
             RestContext.response = res;
         }
     }

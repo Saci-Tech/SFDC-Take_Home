@@ -15,10 +15,10 @@ public class RestResourceDataModels {
         }
     }
     public class SiteProductData {
-        public String name { get; set; }
+        public Decimal quantity { get; set; }
         public String uuid { 
             get {
-                return this.name;
+                return this.uuid;
             }
             set { 
                 // helps to ensure that the UUID is really unique per product
@@ -28,8 +28,8 @@ public class RestResourceDataModels {
         
         public SiteProductData() {}
 
-        public SiteProductData(String name, String uuid) {
-            this.name = name;
+        public SiteProductData(Decimal quantity, String uuid) {
+            this.quantity = quantity;
             this.uuid = uuid;
         }
     }
