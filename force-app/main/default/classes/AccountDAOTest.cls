@@ -22,9 +22,12 @@ private class AccountDAOTest {
                 Phone = '555-1234-' + i
             ));
         }
+        Database.DMLOptions dml = new Database.DMLOptions();
+        dml.DuplicateRuleHeader.AllowSave = true;
+        dml.optAllOrNone = true;
 
         Test.startTest();
-        List<Database.SaveResult> saveResults = AccountDAO.createAccounts(testAccounts);
+        List<Database.SaveResult> saveResults = AccountDAO.createAccounts(testAccounts, dml);
         Test.stopTest();
 
         for (Database.SaveResult saveResult : saveResults) {

@@ -22,8 +22,12 @@ private class ContactDAOTest {
             ));
         }
 
+        Database.DMLOptions dml = new Database.DMLOptions();
+        dml.DuplicateRuleHeader.AllowSave = true;
+        dml.optAllOrNone = true;
+
         Test.startTest();
-        List<Database.SaveResult> saveResults = ContactDAO.createContacts(testContacts);
+        List<Database.SaveResult> saveResults = ContactDAO.createContacts(testContacts, dml);
         Test.stopTest();
 
         for (Database.SaveResult saveResult : saveResults) {
@@ -31,8 +35,10 @@ private class ContactDAOTest {
         }
 
         Set<String> accountNamesSet = new Set<String>{'Test Account'};
+        List<Account> accountList = AccountDAO.getAccounts(accountNamesSet);
         List<Contact> retrievedContacts = ContactDAO.getContacts(accountNamesSet);
         System.assertEquals(5, retrievedContacts.size(), 'Unexpected number of contacts retrieved');
+        retrievedContacts = ContactDAO.getContactsByAccountIds(new Set<String>{accountList[0].Id});
 
     }
 }

@@ -2,28 +2,37 @@
 global with sharing class SiteOrdersRestResource {
 
     @HttpPost
-    global static void doPost(String requestBody) {
+    global static void doPost() {
         RestRequest req = RestContext.request;
         RestResponse res = RestContext.response;
+        String payload = '';
+        List<RestResourceDataModels.SiteIncomingData> incomingDataList = new List<RestResourceDataModels.SiteIncomingData>();
+        
         try {
-
-            res.statusCode = 200;
-            res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(200, 'Record Created Successfully')));
-            RestContext.response = res;
-        } catch (Exception e) {
-            if (e.getMessage().contains('RecordNotFoundException')) {
-                // Handle exceptions or errors - Simulating a 404 error if the record is not found
-                res.statusCode = 404;
-                res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(404, 'Record Not Found')));
+            payload = String.valueOf(req.requestBody.toString());
+            if(!String.isEmpty(payload) && !(payload == null)) {
+                incomingDataList.add(
+                    (RestResourceDataModels.SiteIncomingData) JSON.deserialize(
+                        payload, RestResourceDataModels.SiteIncomingData.class
+                    )
+                );
+                if (SiteOrdersHandler.processSiteData(incomingDataList)) {
+                    res.statusCode = 200;
+                    res.responseBody = Blob.valueOf(JSON.serialize(generateResponseBody(200, 'Record(s) Created Successfully')));
+                }
             } else {
-                // Handle exceptions or errors - a generic server error with status 500
-                res.statusCode = 500;
-                res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(500, 'Internal Server Error')));
+                res.statusCode = 404;
+                res.responseBody = Blob.valueOf(JSON.serialize(generateResponseBody(400, 'Error processing the request')));
             }
-
-            // Additional error handling - is there any internal facility to hold records/audit trail?
-
+        } catch (Exception e) {
+            System.debug('Error: ' + e.getMessage());
+            System.debug('Cause: ' + e.getCause());
+            System.debug('Stack: ' + e.getStackTraceString());
+            res.statusCode = 500;
+            res.responseBody = Blob.valueOf(JSON.serializePretty(generateResponseBody(500, 'Internal Server Error')));
+        } finally {
             RestContext.response = res;
+            System.debug('RestContext.response: ' + RestContext.response);
         }
     }
 

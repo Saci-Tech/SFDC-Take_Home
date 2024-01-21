@@ -25,7 +25,7 @@ public class OpportunityLineItemDAOTest {
             OpportunityId = opp.Id,
             PricebookEntryId = standardPbEntry.Id,
             Quantity = 2,
-            TotalPrice = 2 * standardPbEntry.UnitPrice
+            UnitPrice = standardPbEntry.UnitPrice
         );
 
         List<OpportunityLineItem> oliList = new List<OpportunityLineItem>{ oli };
@@ -68,7 +68,7 @@ public class OpportunityLineItemDAOTest {
             OpportunityId = opp.Id,
             PricebookEntryId = pbEntry.Id,
             Quantity = 2,
-            TotalPrice = 2 * pbEntry.UnitPrice
+            UnitPrice = pbEntry.UnitPrice
         );
         insert oli;
 
