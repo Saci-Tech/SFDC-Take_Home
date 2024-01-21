@@ -133,7 +133,7 @@ private class SiteOrdersRestResourceTest {
         SiteOrdersRestResource.doPost();
         Test.stopTest();
 
-        System.debug('response: ' + response);
+        System.debug('response: ' + response.responseBody.toString());
 
         System.assertNotEquals(null, response.responseBody, 'Response body should not be null');
 
@@ -144,7 +144,7 @@ private class SiteOrdersRestResourceTest {
                 );
 
             System.assertEquals(500, response.statusCode, 'Expected status code 500');
-        //    System.assertEquals('Record(s) Created Successfully', result.message, 'Unexpected response message');
+            System.assertEquals('Internal Server Error', result.message, 'Unexpected response message');
         }
     }
 }
