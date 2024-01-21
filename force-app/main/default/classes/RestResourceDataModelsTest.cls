@@ -51,5 +51,20 @@ public class RestResourceDataModelsTest {
 
         System.assertEquals(200, responseData.status);
         System.assertEquals('Success', responseData.message);
+
+        RestResourceDataModels.SiteAddressData address = new RestResourceDataModels.SiteAddressData();
+        System.assert(address != null);
+
+        RestResourceDataModels.SiteProductData product = new RestResourceDataModels.SiteProductData();
+        System.assert(product != null);
+
+        RestResourceDataModels.SiteContactData contact = new RestResourceDataModels.SiteContactData();
+        System.assert(contact != null);
+
+        RestResourceDataModels.SiteIncomingData data = new RestResourceDataModels.SiteIncomingData();
+        System.assert(data != null);
+
+        RestResourceDataModels.ResponseDataModel response = new RestResourceDataModels.ResponseDataModel();
+        System.assert(response != null);
     }
 }

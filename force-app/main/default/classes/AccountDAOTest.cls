@@ -37,6 +37,10 @@ private class AccountDAOTest {
         Set<String> accountNamesSet = new Set<String>{'Test Account 0', 'Test Account 1', 'Test Account 2'};
         List<Account> retrievedAccounts = AccountDAO.getAccounts(accountNamesSet);
 
+        retrievedAccounts[0].Name = 'Test Account 123';
+
+        AccountDAO.upsertAccounts(retrievedAccounts);
+
         System.assertEquals(3, retrievedAccounts.size(), 'Unexpected number of accounts retrieved');
     }
 }

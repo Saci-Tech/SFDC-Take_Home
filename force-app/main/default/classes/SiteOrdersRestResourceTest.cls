@@ -90,11 +90,61 @@ private class SiteOrdersRestResourceTest {
 
         System.debug('response: ' + response);
 
-        RestResourceDataModels.ResponseDataModel result = (RestResourceDataModels.ResponseDataModel)JSON.deserialize(
-            response.responseBody.toString(), RestResourceDataModels.ResponseDataModel.class
-        );
+        System.assertNotEquals(null, response.responseBody, 'Response body should not be null');
 
-        System.assertEquals(200, response.statusCode, 'Expected status code 200');
-        System.assertEquals('Record(s) Created Successfully', result.message, 'Unexpected response message');
+        if (response.responseBody != null) {
+            RestResourceDataModels.ResponseDataModel result = 
+                (RestResourceDataModels.ResponseDataModel)JSON.deserialize(
+                    response.responseBody.toString(), RestResourceDataModels.ResponseDataModel.class
+                );
+
+            System.assertEquals(200, response.statusCode, 'Expected status code 200');
+            System.assertEquals('Record(s) Created Successfully', result.message, 'Unexpected response message');
+        }
+    }
+
+    @isTest
+    static void testDoPost_Exception() {
+        RestResourceDataModels.SiteIncomingData testData = new RestResourceDataModels.SiteIncomingData(
+            'Test Company', 
+            new List<RestResourceDataModels.SiteProductData>{
+                new RestResourceDataModels.SiteProductData('test uuid', 2)
+            },
+            new RestResourceDataModels.SiteContactData('John', 'Doe', 'john.doe@example.com', '123-456-7890'),
+            new RestResourceDataModels.SiteAddressData('123 Main St', 'Cityville', 'CA', '12345', 'USA')
+        );
+        System.debug('testData: ' + testData);
+
+        RestRequest request = new RestRequest();
+        RestResponse response = new RestResponse();
+
+        String requestBody = JSON.serializePretty(testData, true);
+        request.requestURI = '/services/apexrest/siteorders/';
+        request.httpMethod = 'POST';    
+        request.addHeader('Content-Type', 'application/json');
+        request.requestBody = Blob.valueOf(requestBody);
+        System.debug('request: ' + request);
+
+        RestContext.request = request;
+        RestContext.response = response;
+
+        Test.startTest();
+        SiteOrdersRestResource.testSwitch = true;
+        SiteOrdersRestResource.doPost();
+        Test.stopTest();
+
+        System.debug('response: ' + response);
+
+        System.assertNotEquals(null, response.responseBody, 'Response body should not be null');
+
+        if (response.responseBody != null) {
+            RestResourceDataModels.ResponseDataModel result = 
+                (RestResourceDataModels.ResponseDataModel)JSON.deserialize(
+                    response.responseBody.toString(), RestResourceDataModels.ResponseDataModel.class
+                );
+
+            System.assertEquals(500, response.statusCode, 'Expected status code 500');
+        //    System.assertEquals('Record(s) Created Successfully', result.message, 'Unexpected response message');
+        }
     }
 }

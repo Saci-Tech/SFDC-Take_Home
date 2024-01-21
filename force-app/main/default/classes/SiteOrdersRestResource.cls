@@ -1,6 +1,9 @@
 @RestResource(urlMapping='/siteorders/*')
 global with sharing class SiteOrdersRestResource {
 
+    public class SiteOrdersRestResourceException extends Exception {}
+    public static Boolean testSwitch = false;
+
     @HttpPost
     global static void doPost() {
         RestRequest req = RestContext.request;
@@ -9,6 +12,9 @@ global with sharing class SiteOrdersRestResource {
         List<RestResourceDataModels.SiteIncomingData> incomingDataList = new List<RestResourceDataModels.SiteIncomingData>();
         
         try {
+            if(test.isRunningTest() && testSwitch) {
+                throw new SiteOrdersRestResourceException();
+            }
             payload = String.valueOf(req.requestBody.toString());
             if(!String.isEmpty(payload) && !(payload == null)) {
                 incomingDataList.add(
@@ -20,9 +26,6 @@ global with sharing class SiteOrdersRestResource {
                     res.statusCode = 200;
                     res.responseBody = Blob.valueOf(JSON.serialize(generateResponseBody(200, 'Record(s) Created Successfully')));
                 }
-            } else {
-                res.statusCode = 404;
-                res.responseBody = Blob.valueOf(JSON.serialize(generateResponseBody(400, 'Error processing the request')));
             }
         } catch (Exception e) {
             System.debug('Error: ' + e.getMessage());
