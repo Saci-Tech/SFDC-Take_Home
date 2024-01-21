@@ -15,20 +15,26 @@ public class RestResourceDataModels {
         }
     }
     public class SiteProductData {
-        public Decimal quantity { get; set; }
+        public Decimal quantity { 
+            get {
+                return this.quantity;
+            }
+            set {
+                this.quantity = (Decimal) value;
+            }
+        }
         public String uuid { 
             get {
                 return this.uuid;
             }
             set { 
-                // helps to ensure that the UUID is really unique per product
                 this.uuid = value.toLowerCase(); 
             }
         }
         
         public SiteProductData() {}
 
-        public SiteProductData(Decimal quantity, String uuid) {
+        public SiteProductData(String uuid, Decimal quantity) {
             this.quantity = quantity;
             this.uuid = uuid;
         }
@@ -58,7 +64,7 @@ public class RestResourceDataModels {
 
         public SiteIncomingData() {}
 
-        public SiteIncomingData(SiteContactData contact, String companyName, List<SiteProductData> products, SiteAddressData address) {
+        public SiteIncomingData(String companyName, List<SiteProductData> products, SiteContactData contact, SiteAddressData address) {
             this.companyName = companyName;
             this.products = products != null ? products : new List<SiteProductData>();
             this.address = address != null ? address : new SiteAddressData();
